@@ -13,7 +13,8 @@ ENV PASSWORD=${PASSWORD}
 ENV UID=${UID}
 ENV GID=${GID}
 
-# install sudo, gosu
+
+# install sudo, curl, and other base packages
 RUN apt-get update && apt-get install -y \
     sudo curl git build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev \
@@ -22,15 +23,25 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev openssh-server \
   && rm -rf /var/lib/apt/lists/*
 
+# Install Docker using official repository
+RUN install -m 0755 -d /etc/apt/keyrings \
+  && curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc \
+  && chmod a+r /etc/apt/keyrings/docker.asc \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo \"${UBUNTU_CODENAME:-$VERSION_CODENAME}\") stable" > /etc/apt/sources.list.d/docker.list \
+  && apt-get update \
+  && apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin \
+  && rm -rf /var/lib/apt/lists/*
+
 RUN mkdir -p /var/run/sshd && \
   mkdir -p /run /sshd && \
   chown root:root /run/sshd && \
   chmod 755 /run/sshd
 
-# create user and group
+# create user and group, and add to docker group
 RUN groupadd -g ${GID} ${USERNAME} \
   && useradd -m -u ${UID} -g ${GID} -s /bin/bash ${USERNAME} \
   && usermod -aG sudo ${USERNAME} \
+  && usermod -aG docker ${USERNAME} \
   && echo "${USERNAME}:${PASSWORD}" | chpasswd \
   && echo "${USERNAME} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
