@@ -1,0 +1,21 @@
+services:
+  ubuntu:
+    build:
+      context: .
+      args:
+        USERNAME: ${USERNAME}
+        PASSWORD: ${PASSWORD}
+        UID: ${UID}
+        GID: ${GID}
+    container_name: john-dev
+    ports:
+      - ${SSHPORT}:22
+    environment:
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+      - UID=${UID}
+      - GID=${GID}
+    volumes:
+      - /home/john:/home/${USERNAME}
+    restart: unless-stopped
+
