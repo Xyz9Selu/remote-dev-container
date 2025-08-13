@@ -7,7 +7,7 @@ services:
         PASSWORD: ${PASSWORD}
         UID: ${UID}
         GID: ${GID}
-    container_name: john-dev
+    container_name: ${USERNAME}-dev
     ports:
       - ${SSHPORT}:22
     environment:
