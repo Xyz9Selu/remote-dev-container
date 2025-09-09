@@ -78,6 +78,12 @@ You can run Docker commands (such as `docker ps`, `docker build`, etc.) directly
 docker-compose down
 ```
 
+## List latest installed apps
+
+```sh
+docker compose exec ubuntu bash -c 'grep "Commandline" /var/log/apt/history.log'
+```
+
 ## License
 
 MIT
