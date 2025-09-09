@@ -21,6 +21,7 @@ RUN apt-get update && apt-get install -y \
     xz-utils tk-dev libffi-dev liblzma-dev wget ca-certificates \
     libcurl4-openssl-dev libedit-dev libsqlite3-dev llvm libncursesw5-dev \
     libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev openssh-server \
+    tmux autossh vim htop iputils-ping dnsutils telnet net-tools \
   && rm -rf /var/lib/apt/lists/*
 
 # Install Docker using official repository
