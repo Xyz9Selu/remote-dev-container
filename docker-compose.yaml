@@ -11,6 +11,7 @@ services:
     ports:
       - ${SSHPORT}:22
     environment:
+      - TZ=${TZ}
       - USERNAME=${USERNAME}
       - PASSWORD=${PASSWORD}
       - UID=${UID}

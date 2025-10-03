@@ -16,7 +16,7 @@ ENV GID=${GID}
 
 # install sudo, curl, and other base packages
 RUN apt-get update && apt-get install -y \
-    sudo curl git build-essential libssl-dev zlib1g-dev \
+    sudo curl bash-completion git build-essential libssl-dev zlib1g-dev \
     libbz2-dev libreadline-dev libsqlite3-dev llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libffi-dev liblzma-dev wget ca-certificates \
     libcurl4-openssl-dev libedit-dev libsqlite3-dev llvm libncursesw5-dev \
